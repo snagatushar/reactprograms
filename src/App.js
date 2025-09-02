@@ -140,9 +140,9 @@ function Calculator() {
 }
 
 const calculatorCode = `import React from "react";
-import "./Tushar.css";
+import "./App.css";
 
-function Tushar() {
+function App() {
   const [num1, setnum1] = React.useState("");
   const [num2, setnum2] = React.useState("");
   const [result, setresult] = React.useState(null);
@@ -187,7 +187,7 @@ function Tushar() {
   );
 }
 
-export default Tushar;
+export default App;
 `;
 const calculatorCss = `/* App.css - centered and simple */
 
@@ -247,11 +247,11 @@ function VotingSystem() {
   return (
     <div className="voting">
       <h2>Voting System</h2>
-      <p>Bhuvan: {votesA} votes</p>
-      <p>Dinesh: {votesB} votes</p>
-      <button onClick={() => setVotesA(votesA + 1)}>Vote Bhuvan</button>
-      <button onClick={() => setVotesB(votesB + 1)}>Vote Dinesh</button>
-      <p>{votesA > votesB ? "🏆 Bhuvan leading!" : votesB > votesA ? "🏆 Dinesh leading!" : "🤝 Tie"}</p>
+      <p>person1: {votesA} votes</p>
+      <p>Person2: {votesB} votes</p>
+      <button onClick={() => setVotesA(votesA + 1)}>Vote Person1</button>
+      <button onClick={() => setVotesB(votesB + 1)}>Vote Person2</button>
+      <p>{votesA > votesB ? "🏆 person1 leading!" : votesB > votesA ? "🏆 person2 leading!" : "🤝 Tie"}</p>
     </div>
   );
 }
@@ -268,17 +268,17 @@ function VotingSystem() {
     <div className="voting-container">
       <h1>Voting System</h1>
 
-      <h2>Bhuvan: {votesA} votes</h2>
-      <h2>Dinesh {votesB} votes</h2>
+      <h2>person1: {votesA} votes</h2>
+      <h2>person2 {votesB} votes</h2>
 
       <button onClick={() => setVotesA(votesA + 1)}>Vote for A</button>
       <button onClick={() => setVotesB(votesB + 1)}>Vote for B</button>
 
       <h3>
         {votesA > votesB
-          ? "🏆 Bhuvan is leading!"
+          ? "🏆 Person1 is leading!"
           : votesB > votesA
-          ? "🏆 Dinesh is leading!"
+          ? "🏆 Person2 is leading!"
           : "🤝 It's a tie!"}
       </h3>
     </div>
