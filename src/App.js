@@ -990,7 +990,7 @@ function BootstrapExample() {
               <img
                 src="https://via.placeholder.com/300x200/007bff/ffffff?text=Image+1"
                 className="card-img-top"
-                alt="Image 1"
+                alt="Card One"
               />
               <div className="card-body">
                 <button className="btn btn-primary">Click Me</button>
@@ -1005,7 +1005,7 @@ function BootstrapExample() {
               <img
                 src="https://via.placeholder.com/300x200/28a745/ffffff?text=Image+2"
                 className="card-img-top"
-                alt="Image 2"
+                alt="Card Two"
               />
               <div className="card-body">
                 <button className="btn btn-success">Click Me</button>
@@ -1016,7 +1016,7 @@ function BootstrapExample() {
       </div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="/">
             My Website
           </a>
           <button
@@ -1030,17 +1030,17 @@ function BootstrapExample() {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/#home">
                   Home
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/#about">
                   About
                 </a>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
+                <a className="nav-link" href="/#contact">
                   Contact
                 </a>
               </li>
