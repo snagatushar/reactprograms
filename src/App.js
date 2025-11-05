@@ -340,16 +340,50 @@ h3 {
 
 /* ================= Login Form ================= */
 function LoginForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
+
+  // Static credentials
+  const validUser = "admin";
+  const validPass = "12345";
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    if (username === validUser && password === validPass) {
+      setMessage("Valid Login");
+    } else {
+      setMessage("Invalid Login");
+    }
+  };
+
   return (
     <div className="login">
-      <h2>Login</h2>
-      <form>
-        <input type="text" placeholder="First Name" />
-        <input type="text" placeholder="Last Name" />
-        <input type="password" placeholder="Password" />
-        <input type="number" placeholder="Phone Number" />
+      <h2>Login Form</h2>
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>Username:</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
         <button type="submit">Login</button>
       </form>
+
+      <div>{message}</div>
     </div>
   );
 }
@@ -446,41 +480,54 @@ function StarRating() {
   );
 }
 
-const loginCode = `import React from "react";
-import './App.css';
+const loginCode = `function LoginForm() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
-function App() {
+  // Static credentials
+  const validUser = "admin";
+  const validPass = "12345";
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    if (username === validUser && password === validPass) {
+      setMessage("Valid Login");
+    } else {
+      setMessage("Invalid Login");
+    }
+  };
+
   return (
-    <div className="container">
-      <h1>Login Form</h1>
-      <form>
-        <label>
-          First Name:
-          <input type="text" name="fname" />
-        </label>
-        
-        <label>
-          Last Name:
-          <input type="text" name="lname" />
-        </label>
-        
-        <label>
-          Password:
-          <input type="password" name="password" />
-        </label>
-        
-        <label>
-          Phone Number:
-          <input type="number" name="phno" />
-        </label>
+    <div className="login">
+      <h2>Login Form</h2>
+      <form onSubmit={handleLogin}>
+        <div>
+          <label>Username:</label>
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
 
-        <input type="submit" value="Login" />
+        <div>
+          <label>Password:</label>
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        <button type="submit">Login</button>
       </form>
+
+      <div>{message}</div>
     </div>
   );
 }
-
-export default App;
 `;
 const loginCss = `/* App.css */
 body {
@@ -1181,7 +1228,6 @@ const dragAndDropCode = `<!DOCTYPE html>
 </body>
 </html>
 `;
-
 const dragAndDropCss = `body {
   font-family: Arial, sans-serif;
   display: flex;
@@ -1644,7 +1690,6 @@ function App() {
 
 export default App;
 `;
-
 const bookManagementCss = `/* Basic styling - mostly inline styles used in the component */
 /* You can add additional CSS here if needed */
 
