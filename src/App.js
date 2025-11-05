@@ -480,7 +480,8 @@ function StarRating() {
   );
 }
 
-const loginCode = `function LoginForm() {
+const loginCode = `import React, { useState } from "react";
+function LoginForm() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
@@ -528,6 +529,7 @@ const loginCode = `function LoginForm() {
     </div>
   );
 }
+  export default LoginForm;
 `;
 const loginCss = `/* App.css */
 body {
