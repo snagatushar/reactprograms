@@ -579,51 +579,38 @@ input[type="submit"]:hover {
 }
 `;
 
-const passwordCheckerCode = `import { useEffect } from "react";
-import $ from "jquery"; // ✅ Import jQuery
-import "./App.css";
+const passwordCheckerCode = `import React, { useEffect } from "react";
+import $ from "jquery";
 
 function PasswordChecker() {
   useEffect(() => {
-    // Handle keyup event
-    const handleKeyUp = () => {
-      const pwd = $("#password").val();
-      const $strength = $("#strength");
-      $strength.removeClass("weak medium strong");
+    $("#password").on("keyup", function () {
+      const pwd = $(this).val();
+      const strength = $("#strength");
 
       if (!pwd) {
-        $strength.text("");
+        strength.text("");
       } else if (pwd.length < 6) {
-        $strength.text("Weak Password 😞").addClass("weak");
+        strength.text("Weak 😞");
       } else if (pwd.length < 10) {
-        $strength.text("Medium Password 😐").addClass("medium");
+        strength.text("Medium 😐");
       } else {
-        $strength.text("Strong Password 💪").addClass("strong");
+        strength.text("Strong 💪");
       }
-    };
-
-    // Bind event
-    $("#password").on("keyup", handleKeyUp);
-
-    // Cleanup
-    return () => $("#password").off("keyup", handleKeyUp);
+    });
   }, []);
 
   return (
-    <div className="container">
-      <h2>Password Strength Checker 🔐</h2>
-      <input
-        type="password"
-        id="password"
-        placeholder="Enter Password"
-        className="password-input"
-      />
-      <p id="strength" className="strength-text"></p>
+    <div>
+      <h2>Password Strength Checker</h2>
+      <input type="password" id="password" placeholder="Enter Password" />
+      <p id="strength"></p>
     </div>
   );
 }
 
 export default PasswordChecker;
+
 `;
 
 const passwordCheckerCss = `.container {
@@ -980,7 +967,7 @@ function BootstrapExample() {
           </div>
         </div>
       </nav>
-      <footer className="bg-dark text-white text-center py-3 mt-4">
+      <footer className=" text-white text-center py-3 mt-4">
         <p className="mb-0">© 2025 My Website | All Rights Reserved</p>
       </footer>
     </div>
@@ -1173,8 +1160,8 @@ const bootstrapExampleCode = `<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bootstrap Example</title>
-  <link 
-    rel="stylesheet" 
+  <link
+    rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 </head>
 <body>
@@ -1204,7 +1191,7 @@ const bootstrapExampleCode = `<!DOCTYPE html>
       </div>
     </div>
   </div>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a class="navbar-brand" href="#">My Website</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
@@ -1219,7 +1206,7 @@ const bootstrapExampleCode = `<!DOCTYPE html>
       </div>
     </div>
   </nav>
-  <footer class="bg-dark text-white text-center py-3 mt-4">
+  <footer class="bg-light text-dark text-center py-3 mt-4">
     <p class="mb-0">© 2025 My Website | All Rights Reserved</p>
   </footer>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
