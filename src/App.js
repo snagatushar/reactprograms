@@ -728,140 +728,36 @@ const starRatingCss = `/* Star Rating Styles */
 }
 `;
 
-/* ================= Drag & Drop Page Builder ================= */
-function DragAndDropPageBuilder() {
+/* ================= Drag & Drop Example ================= */
+function DragAndDropExample() {
   useEffect(() => {
-    const draggables = document.querySelectorAll(".draggable");
-    const dropZone = document.getElementById("dropZone");
-
-    // Allow drop
-    const handleDragOver = (e) => {
-      e.preventDefault();
-      dropZone.style.background = "#eef";
-    };
-
-    const handleDragLeave = () => {
-      dropZone.style.background = "transparent";
-    };
-
-    // Drop action
-    const handleDrop = (e) => {
-      e.preventDefault();
-      dropZone.style.background = "transparent";
-      const type = e.dataTransfer.getData("type");
-      let newElement;
-
-      if (type === "text") {
-        newElement = document.createElement("div");
-        newElement.className = "element";
-        newElement.contentEditable = true;
-        newElement.innerText = "Editable Text";
-      } else if (type === "image1") {
-        newElement = document.createElement("img");
-        newElement.className = "element image-option";
-        newElement.src = "https://via.placeholder.com/200x150/00796b/ffffff?text=Image+1";
-        newElement.alt = "Sample Image 1";
-      } else if (type === "image2") {
-        newElement = document.createElement("img");
-        newElement.className = "element image-option";
-        newElement.src = "https://via.placeholder.com/200x150/4caf50/ffffff?text=Image+2";
-        newElement.alt = "Sample Image 2";
-      } else if (type === "button") {
-        newElement = document.createElement("button");
-        newElement.className = "element";
-        newElement.innerText = "Click Me";
-      }
-
-      if (newElement) {
-        if (e.target.classList.contains('drop-zone')) {
-          e.target.appendChild(newElement);
-        } else {
-          const targetElement = e.target.closest('.element');
-          if (targetElement) {
-            dropZone.insertBefore(newElement, targetElement);
-          } else {
-            dropZone.appendChild(newElement);
-          }
-        }
-      }
-    };
-
-    // Store which type is being dragged
-    const handleDragStart = (e) => {
-      e.dataTransfer.setData("type", e.target.dataset.type);
-    };
-
-    dropZone.addEventListener("dragover", handleDragOver);
-    dropZone.addEventListener("dragleave", handleDragLeave);
-    dropZone.addEventListener("drop", handleDrop);
-
-    draggables.forEach(el => {
-      el.addEventListener("dragstart", handleDragStart);
+    let dragItem = null;
+    document.querySelectorAll('.item').forEach(i => {
+      i.ondragstart = () => dragItem = i;
     });
-
-    // Cleanup
-    return () => {
-      dropZone.removeEventListener("dragover", handleDragOver);
-      dropZone.removeEventListener("dragleave", handleDragLeave);
-      dropZone.removeEventListener("drop", handleDrop);
-      draggables.forEach(el => {
-        el.removeEventListener("dragstart", handleDragStart);
-      });
-    };
+    document.querySelectorAll('.box').forEach(b => {
+      b.ondragover = e => { e.preventDefault(); b.classList.add('hover') };
+      b.ondragleave = () => b.classList.remove('hover');
+      b.ondrop = () => { b.classList.remove('hover'); b.appendChild(dragItem) };
+    });
   }, []);
 
   return (
-    <div style={{ display: "flex", height: "500px", margin: "0" }}>
-      <div id="sidebar" style={{
-        width: "200px",
-        background: "#f4f4f4",
-        borderRight: "2px solid #ccc",
-        padding: "10px"
-      }}>
-        <h3>Elements</h3>
-        <div className="draggable" draggable="true" data-type="text">Text</div>
-        <div className="draggable" draggable="true" data-type="image1">Image Option 1</div>
-        <div className="draggable" draggable="true" data-type="image2">Image Option 2</div>
-        <div className="draggable" draggable="true" data-type="button">Button</div>
-      </div>
-      <div id="canvas" style={{
-        flex: "1",
-        background: "#fafafa",
-        padding: "20px",
-        borderLeft: "2px solid #ccc",
-        overflow: "auto"
-      }}>
-        <h3>Page Canvas</h3>
-        <div className="drop-zone" id="dropZone" style={{
-          minHeight: "400px",
-          border: "2px dashed #aaa",
-          padding: "20px",
-          textAlign: "center",
-          color: "#888"
-        }}>
-          Drag elements here
+    <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', fontFamily: 'sans-serif', marginTop: '40px' }}>
+      <div className="box" id="source">
+        <div className="item" draggable="true">IFIM College</div>
+        <img src="Assets/ifim.png" className="item" draggable="true" alt="Sample" />
+        <div className="item" draggable="true">
+          <button onclick="alert('Button Clicked!')">Submit</button>
         </div>
       </div>
+      <div className="box" id="target"></div>
       <style>{`
-        .draggable {
-          padding: 10px;
-          margin: 10px 0;
-          background: #fff;
-          border: 1px solid #888;
-          cursor: grab;
-          text-align: center;
-        }
-        .element {
-          padding: 10px;
-          margin: 10px 0;
-          background: #e0f7fa;
-          border: 1px solid #00796b;
-        }
-        .image-option {
-          width: 200px;
-          height: auto;
-          border: none;
-        }
+        .box { width: 220px; min-height: 200px; border: 2px dashed #666; padding: 10px; text-align: center; }
+        .item { margin: 10px; padding: 6px; cursor: grab; border: 1px solid #aaa; background: #f0f0f0; border-radius: 5px; }
+        img { width: 100px; display: block; margin: auto; }
+        button { padding: 8px 14px; background: #4f46e5; color: #fff; border: none; border-radius: 5px; cursor: grab; }
+        .box.hover { background: #eef; }
       `}</style>
     </div>
   );
@@ -1095,179 +991,45 @@ const dragAndDropCode = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Simple Drag & Drop Page Builder</title>
+  <title>Simple Drag & Drop</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      height: 100vh;
-      margin: 0;
-    }
-    #sidebar {
-      width: 200px;
-      background: #f4f4f4;
-      border-right: 2px solid #ccc;
-      padding: 10px;
-    }
-    .draggable {
-      padding: 10px;
-      margin: 10px 0;
-      background: #fff;
-      border: 1px solid #888;
-      cursor: grab;
-      text-align: center;
-    }
-    #canvas {
-      flex: 1;
-      background: #fafafa;
-      padding: 20px;
-      border-left: 2px solid #ccc;
-      overflow: auto;
-    }
-    .drop-zone {
-      min-height: 400px;
-      border: 2px dashed #aaa;
-      padding: 20px;
-      text-align: center;
-      color: #888;
-    }
-    .element {
-      padding: 10px;
-      margin: 10px 0;
-      background: #e0f7fa;
-      border: 1px solid #00796b;
-    }
-    .image-option {
-      width: 200px;
-      height: auto;
-      border: none;
-    }
+    .box { width: 220px; min-height: 200px; border: 2px dashed #666; padding: 10px; text-align: center; }
+    .item { margin: 10px; padding: 6px; cursor: grab; border: 1px solid #aaa; background: #f0f0f0; border-radius: 5px; }
+    img { width: 100px; display: block; margin: auto; }
+    button { padding: 8px 14px; background: #4f46e5; color: #fff; border: none; border-radius: 5px; cursor: grab; }
+    .box.hover { background: #eef; }
   </style>
 </head>
 <body>
-  <div id="sidebar">
-    <h3>Elements</h3>
-    <div class="draggable" draggable="true" data-type="text">Text</div>
-    <div class="draggable" draggable="true" data-type="image1">Image Option 1</div>
-    <div class="draggable" draggable="true" data-type="image2">Image Option 2</div>
-    <div class="draggable" draggable="true" data-type="button">Button</div>
-  </div>
-  <div id="canvas">
-    <h3>Page Canvas</h3>
-    <div class="drop-zone" id="dropZone">
-      Drag elements here
+  <div style="display: flex; justify-content: center; gap: 20px; font-family: sans-serif; margin-top: 40px;">
+    <div class="box" id="source">
+      <div class="item" draggable="true">IFIM College</div>
+      <img src="Assets/ifim.png" class="item" draggable="true" alt="Sample" />
+      <div class="item" draggable="true">
+        <button onclick="alert('Button Clicked!')">Submit</button>
+      </div>
     </div>
+    <div class="box" id="target"></div>
   </div>
   <script>
-    const draggables = document.querySelectorAll(".draggable");
-    const dropZone = document.getElementById("dropZone");
-
-    dropZone.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      dropZone.style.background = "#eef";
+    let dragItem = null;
+    document.querySelectorAll('.item').forEach(i => {
+      i.ondragstart = () => dragItem = i;
     });
-
-    dropZone.addEventListener("dragleave", () => {
-      dropZone.style.background = "transparent";
-    });
-
-    dropZone.addEventListener("drop", (e) => {
-      e.preventDefault();
-      dropZone.style.background = "transparent";
-      const type = e.dataTransfer.getData("type");
-      let newElement;
-
-      if (type === "text") {
-        newElement = document.createElement("div");
-        newElement.className = "element";
-        newElement.contentEditable = true;
-        newElement.innerText = "Editable Text";
-      } else if (type === "image1") {
-        newElement = document.createElement("img");
-        newElement.className = "element image-option";
-        newElement.src = "sample1.jpg";
-      } else if (type === "image2") {
-        newElement = document.createElement("img");
-        newElement.className = "element image-option";
-        newElement.src = "sample2.jpg";
-      } else if (type === "button") {
-        newElement = document.createElement("button");
-        newElement.className = "element";
-        newElement.innerText = "Click Me";
-      }
-
-      if (newElement) {
-        if (e.target.classList.contains('drop-zone')) {
-          e.target.appendChild(newElement);
-        } else {
-          const targetElement = e.target.closest('.element');
-          if (targetElement) {
-            dropZone.insertBefore(newElement, targetElement);
-          }
-        }
-      }
-    });
-
-    draggables.forEach(el => {
-      el.addEventListener("dragstart", (e) => {
-        e.dataTransfer.setData("type", el.dataset.type);
-      });
+    document.querySelectorAll('.box').forEach(b => {
+      b.ondragover = e => { e.preventDefault(); b.classList.add('hover') };
+      b.ondragleave = () => b.classList.remove('hover');
+      b.ondrop = () => { b.classList.remove('hover'); b.appendChild(dragItem) };
     });
   </script>
 </body>
 </html>
 `;
-const dragAndDropCss = `body {
-  font-family: Arial, sans-serif;
-  display: flex;
-  height: 100vh;
-  margin: 0;
-}
-
-#sidebar {
-  width: 200px;
-  background: #f4f4f4;
-  border-right: 2px solid #ccc;
-  padding: 10px;
-}
-
-.draggable {
-  padding: 10px;
-  margin: 10px 0;
-  background: #fff;
-  border: 1px solid #888;
-  cursor: grab;
-  text-align: center;
-}
-
-#canvas {
-  flex: 1;
-  background: #fafafa;
-  padding: 20px;
-  border-left: 2px solid #ccc;
-  overflow: auto;
-}
-
-.drop-zone {
-  min-height: 400px;
-  border: 2px dashed #aaa;
-  padding: 20px;
-  text-align: center;
-  color: #888;
-}
-
-.element {
-  padding: 10px;
-  margin: 10px 0;
-  background: #e0f7fa;
-  border: 1px solid #00796b;
-}
-
-.image-option {
-  width: 200px;
-  height: auto;
-  border: none;
-}
+const dragAndDropCss = `.box { width: 220px; min-height: 200px; border: 2px dashed #666; padding: 10px; text-align: center; }
+.item { margin: 10px; padding: 6px; cursor: grab; border: 1px solid #aaa; background: #f0f0f0; border-radius: 5px; }
+img { width: 100px; display: block; margin: auto; }
+button { padding: 8px 14px; background: #4f46e5; color: #fff; border: none; border-radius: 5px; cursor: grab; }
+.box.hover { background: #eef; }
 `;
 
 /* eslint-disable */
@@ -1729,7 +1491,7 @@ const sections = [
   { title: "Login Form", component: <LoginForm />, code: loginCode, css: loginCss },
   { title: "Password Checker", component: <PasswordChecker />, code: passwordCheckerCode, css: passwordCheckerCss },
   { title: "Star Rating", component: <StarRating />, code: starRatingCode, css: starRatingCss },
-  { title: "Drag & Drop Page Builder", component: <DragAndDropPageBuilder />, code: dragAndDropCode, css: dragAndDropCss },
+  { title: "Drag & Drop Example", component: <DragAndDropExample />, code: dragAndDropCode, css: dragAndDropCss },
   { title: "Shopping Cart", component: <ShoppingCart />, code: shoppingCartCode, css: shoppingCartCss },
   { title: "Bootstrap Example", component: <BootstrapExample />, code: bootstrapExampleCode, css: bootstrapExampleCss },
   { title: "Book Management System", component: <BookManagementSystem />, code: bookManagementCode, css: bookManagementCss },
