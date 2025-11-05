@@ -611,6 +611,7 @@ function PasswordChecker() {
 
 export default PasswordChecker;
 
+
 `;
 
 const passwordCheckerCss = `.container {
@@ -1155,63 +1156,53 @@ const shoppingCartCss = `.app-container {
 `;
 
 const bootstrapExampleCode = `<!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bootstrap Example</title>
-  <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Horizontal Cards Grid</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
   <div class="container p-4">
-    <div class="row text-center">
-      <div class="col-md-4">
+    <div class="row text-center g-3">
+
+      <div class="col-4">
         <div class="card h-100">
-          <div class="card-header bg-primary text-white">
-            <h5>Card One</h5>
-          </div>
-          <img src="image1.jpg" class="card-img-top" alt="Image 1">
-          <div class="card-body">
-            <button class="btn btn-primary">Click Me</button>
+          <div class="card-header bg-primary text-white">Section 1</div>
+          <img src="iot_image.jpeg" class="card-img-top">
+          <div class="card-footer">
+            <button class="btn btn-primary">Click</button>
           </div>
         </div>
       </div>
-      <div class="col-md-4">
+
+      <div class="col-4">
         <div class="card h-100">
-          <div class="card-header bg-success text-white">
-            <h5>Card Two</h5>
-          </div>
-          <img src="image2.jpg" class="card-img-top" alt="Image 2">
-          <div class="card-body">
-            <button class="btn btn-success">Click Me</button>
+          <div class="card-header bg-success text-white">Section 2</div>
+          <img src="AI_image.jpeg" class="card-img-top">
+          <div class="card-footer">
+            <button class="btn btn-success">Click</button>
           </div>
         </div>
       </div>
+
+      <div class="col-4">
+        <div class="card h-100">
+          <div class="card-header bg-danger text-white">Section 3</div>
+          <img src="DA_image.jpeg" class="card-img-top">
+          <div class="card-footer">
+            <button class="btn btn-danger">Click</button>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="container">
-      <a class="navbar-brand" href="#">My Website</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-  <footer class="bg-light text-dark text-center py-3 mt-4">
-    <p class="mb-0">© 2025 My Website | All Rights Reserved</p>
-  </footer>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
 `;
 
 const bootstrapExampleCss = `/* Bootstrap CDN is included in the HTML head */
@@ -1322,111 +1313,68 @@ function BookManagementSystem() {
   );
 }
 
-const bookManagementCode = `import React, { useState } from "react";
+const bookManagementCode = `const readline = require("readline");
 
-function App() {
-  const [books, setBooks] = useState([]);
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [menu, setMenu] = useState("main"); // main, add, view, exit
+// ✅ Create interface for user input
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
 
-  const addBook = () => {
-    if (title.trim() && author.trim()) {
-      const bookTitle = title;
-      const bookAuthor = author;
-      setBooks([...books, { title: bookTitle, author: bookAuthor }]);
-      setTitle("");
-      setAuthor("");
-      alert(\`Book "\${bookTitle}" by \${bookAuthor} added.\`);
-      setMenu("main");
-    } else {
-      alert("Please enter both title and author");
+let books = [];
+
+// 📜 Show Menu
+function showMenu() {
+  console.log("\n=== Book Management System ===");
+  console.log("1. Add a Book");
+  console.log("2. View All Books");
+  console.log("3. Exit");
+
+  rl.question("Choose an option: ", (choice) => {
+    switch (choice.trim()) {
+      case "1":
+        addBook();
+        break;
+      case "2":
+        viewBooks();
+        break;
+      case "3":
+        console.log("Exiting Book Management System...");
+        rl.close();
+        break;
+      default:
+        console.log("Invalid option. Please try again.");
+        showMenu();
     }
-  };
-
-  const renderMenu = () => {
-    if (menu === "exit") {
-      return (
-        <div>
-          <h2>👋 Thank you for using Book Management System!</h2>
-          <button onClick={() => setMenu("main")}>Restart</button>
-        </div>
-      );
-    }
-
-    if (menu === "main") {
-      return (
-        <div>
-          <h2>=== Book Management System ===</h2>
-          <div style={{ marginTop: "10px" }}>
-            <button onClick={() => setMenu("add")}>1. Add Book</button>
-            <button onClick={() => setMenu("view")} style={{ marginLeft: "10px" }}>
-              2. View Books
-            </button>
-            <button onClick={() => setMenu("exit")} style={{ marginLeft: "10px" }}>
-              3. Exit
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    if (menu === "add") {
-      return (
-        <div>
-          <h3>Add Book</h3>
-          <input
-            type="text"
-            placeholder="Enter Book Title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Enter Author Name"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            style={{ marginLeft: "10px" }}
-          />
-          <div style={{ marginTop: "10px" }}>
-            <button onClick={addBook}>Add</button>
-            <button onClick={() => setMenu("main")} style={{ marginLeft: "10px" }}>
-              Back
-            </button>
-          </div>
-        </div>
-      );
-    }
-
-    if (menu === "view") {
-      return (
-        <div>
-          <h3>All Books</h3>
-          {books.length === 0 ? (
-            <p>No books available.</p>
-          ) : (
-            <ul>
-              {books.map((b, i) => (
-                <li key={i}>
-                  {i + 1}. {b.title} by {b.author}
-                </li>
-              ))}
-            </ul>
-          )}
-          <button onClick={() => setMenu("main")}>Back</button>
-        </div>
-      );
-    }
-  };
-
-  return (
-    <div style={{ textAlign: "center", padding: "30px", fontFamily: "Arial" }}>
-      {renderMenu()}
-    </div>
-  );
+  });
 }
 
-export default App;
+// ➕ Add Book Function
+function addBook() {
+  rl.question("Enter book title: ", (title) => {
+    rl.question("Enter author name: ", (author) => {
+      books.push({ title, author });
+      console.log('Book "' + title + '" by ' + author + ' added successfully.');
+      showMenu();
+    });
+  });
+}
+
+// 📖 View All Books
+function viewBooks() {
+  console.log("\n=== All Books ===");
+  if (books.length === 0) {
+    console.log("No books available.");
+  } else {
+    books.forEach((book, index) => {
+      console.log((index + 1) + '. "' + book.title + '" by ' + book.author);
+    });
+  }
+  showMenu();
+}
+
+// ▶️ Start Program
+showMenu();
 `;
 const bookManagementCss = `/* Basic styling - mostly inline styles used in the component */
 /* You can add additional CSS here if needed */
@@ -1470,6 +1418,70 @@ li {
 }
 `;
 
+const nodeJsBookManagementCode = `const readline = require("readline");
+
+// ✅ Create interface for user input
+const rl = readline.createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+let books = [];
+
+// 📜 Show Menu
+function showMenu() {
+  console.log("\\n=== Book Management System ===");
+  console.log("1. Add a Book");
+  console.log("2. View All Books");
+  console.log("3. Exit");
+
+  rl.question("Choose an option: ", (choice) => {
+    switch (choice.trim()) {
+      case "1":
+        addBook();
+        break;
+      case "2":
+        viewBooks();
+        break;
+      case "3":
+        console.log("Exiting Book Management System...");
+        rl.close();
+        break;
+      default:
+        console.log("Invalid option. Please try again.");
+        showMenu();
+    }
+  });
+}
+
+// ➕ Add Book Function
+function addBook() {
+  rl.question("Enter book title: ", (title) => {
+    rl.question("Enter author name: ", (author) => {
+      books.push({ title, author });
+      console.log('Book "' + title + '" by ' + author + ' added successfully.');
+      showMenu();
+    });
+  });
+}
+
+// 📖 View All Books
+function viewBooks() {
+  console.log("\\n=== All Books ===");
+  if (books.length === 0) {
+    console.log("No books available.");
+  } else {
+    books.forEach((book, index) => {
+      console.log((index + 1) + '. "' + book.title + '" by ' + book.author);
+    });
+  }
+  showMenu();
+}
+
+// ▶️ Start Program
+showMenu();
+`;
+
 /* ================= Sections ================= */
 const sections = [
   { title: "ChatBot", component: <ChatBot />, code: chatbotCode, css: chatbotCss },
@@ -1482,6 +1494,7 @@ const sections = [
   { title: "Shopping Cart", component: <ShoppingCart />, code: shoppingCartCode, css: shoppingCartCss },
   { title: "Bootstrap Example", component: <BootstrapExample />, code: bootstrapExampleCode, css: bootstrapExampleCss },
   { title: "Book Management System", component: <BookManagementSystem />, code: bookManagementCode, css: bookManagementCss },
+  { title: "Node.js Book Management System", component: <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'monospace' }}>{nodeJsBookManagementCode}</pre>, code: nodeJsBookManagementCode, css: "" },
 ];
 
 export default function App() {
