@@ -481,55 +481,42 @@ function StarRating() {
 }
 
 const loginCode = `import React, { useState } from "react";
+
 function LoginForm() {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [message, setMessage] = useState("");
+  const [user, setUser] = useState("");
+  const [pass, setPass] = useState("");
+  const [msg, setMsg] = useState("");
 
-  // Static credentials
-  const validUser = "admin";
-  const validPass = "12345";
-
-  const handleLogin = (e) => {
-    e.preventDefault();
-
-    if (username === validUser && password === validPass) {
-      setMessage("Valid Login");
-    } else {
-      setMessage("Invalid Login");
-    }
+  const login = (e) => {
+    if (user === "admin" && pass === "12345") setMsg("Valid Login");
+    else setMsg("Invalid Login");
   };
 
   return (
-    <div className="login">
+    <div>
       <h2>Login Form</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          <label>Username:</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-        </div>
-
-        <div>
-          <label>Password:</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
-
-        <button type="submit">Login</button>
+      <form onSubmit={login}>
+        <input
+          type="text"
+          placeholder="Username"
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
+        /><br /><br />
+        <input
+          type="password"
+          placeholder="Password"
+          value={pass}
+          onChange={(e) => setPass(e.target.value)}
+        /><br /><br />
+        <button>Login</button>
       </form>
-
-      <div>{message}</div>
+      <p>{msg}</p>
     </div>
   );
 }
-  export default LoginForm;
+
+export default LoginForm;
+
 `;
 const loginCss = `/* App.css */
 body {
