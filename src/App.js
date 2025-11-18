@@ -733,10 +733,10 @@ function DragAndDropExample() {
   return (
     <div style={{ display: 'flex', justifyContent: 'center', gap: '20px', fontFamily: 'sans-serif', marginTop: '40px' }}>
       <div className="box" id="source">
-        <div className="item" draggable="true">IFIM College</div>
-        <img src="Assets/ifim.png" className="item" draggable="true" alt="Sample" />
-        <div className="item" draggable="true">
-          <button onclick="alert('Button Clicked!')">Submit</button>
+        <div className="item" draggable={true}>IFIM College</div>
+        <img src="Assets/ifim.png" className="item" draggable={true} alt="Sample" />
+        <div className="item" draggable={true}>
+          <button onClick={() => alert('Button Clicked!')}>Submit</button>
         </div>
       </div>
       <div className="box" id="target"></div>
@@ -794,7 +794,7 @@ function ShoppingCart() {
         {products.map((product) => (
           <li key={product.id} className="product-item">
             <span>
-              <strong>{product.name}</strong> - ${product.price}
+              <strong>{product.name}</strong> - {'$' + product.price}
             </span>
             <button className="add-button" onClick={() => addToCart(product)}>
               Add to Cart
@@ -1022,82 +1022,52 @@ button { padding: 8px 14px; background: #4f46e5; color: #fff; border: none; bord
 
 /* eslint-disable */
 const shoppingCartCode = `import React, { useState } from 'react';
-import './App.css';
+import './grocery.css';
 
-const App = () => {
-  const [products] = useState([
-    { id: 1, name: 'Laptop', price: 1200 },
-    { id: 2, name: 'Phone', price: 800 },
-    { id: 3, name: 'Headphones', price: 150 },
-  ]);
+const products = [
+  { id: 1, name: 'Apple', price: 5 },
+  { id: 2, name: 'Banana', price: 2 },
+  { id: 3, name: 'Bread', price: 10 },
+  { id: 4, name: 'Butter', price: 15 },
+  { id: 5, name: 'Milkers', price: 20 }
+];
+
+function App() {
   const [cart, setCart] = useState([]);
 
   const addToCart = (product) => {
-    setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.id === product.id);
-      if (existingItem) {
-        return prevCart.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        );
-      } else {
-        return [...prevCart, { ...product, quantity: 1 }];
-      }
-    });
+    setCart([...cart, product]);
   };
 
-  const removeFromCart = (productId) => {
-    setCart((prevCart) =>
-      prevCart
-        .map((item) =>
-          item.id === productId
-            ? { ...item, quantity: item.quantity - 1 }
-            : item
-        )
-        .filter((item) => item.quantity > 0)
-    );
+  const clearCart = () => {
+    setCart([]);
   };
+
+  const totalPrice = cart.reduce((total, product) => total + product.price, 0);
 
   return (
-    <div className="app-container">
-      <h1 className="title">🛍️ Product List</h1>
-      <ul className="product-list">
-        {products.map((product) => (
-          <li key={product.id} className="product-item">
-            <span>
-              <strong>{product.name}</strong> - \${product.price}
-            </span>
-            <button className="add-button" onClick={() => addToCart(product)}>
-              Add to Cart
-            </button>
+    <div>
+      <h1>Grocery Store</h1>
+      <h2>Products</h2>
+      <ul>
+        {products.map(product => (
+          <li key={product.id}>
+            {product.name} - {'$' + product.price}
+            <button onClick={() => addToCart(product)}>Add to Cart</button>
           </li>
         ))}
       </ul>
-      <hr className="divider" />
-      <h2 className="title">🛒 Cart</h2>
-      {cart.length === 0 ? (
-        <p className="empty-cart">Your cart is empty.</p>
-      ) : (
-        <ul className="cart-list">
-          {cart.map((item) => (
-            <li key={item.id} className="cart-item">
-              <span>
-                {item.name} (\${item.price}) × {item.quantity}
-              </span>
-              <button
-                className="remove-button"
-                onClick={() => removeFromCart(item.id)}
-              >
-                Remove
-              </button>
-            </li>
-          ))}
-        </ul>
-      )}
+      <h2>Shopping Cart</h2>
+      <ul>
+        {cart.map((item, index) => (
+          <li key={index}>{item.name} - {'$' + item.price}</li>
+        ))}
+      </ul>
+      <h3>Total Price: {'$' + totalPrice}</h3>
+      <button onClick={clearCart} style={{ marginTop: '10px' }}>Clear Cart</button>
     </div>
   );
-};
+}
 
 export default App;
 `;
